@@ -1,7 +1,8 @@
-*/etcd_*.snap
-*/parts
-*/prime
-*/stage
+**/etcd_*.snap
+**/etcd_*.bz2
+**/parts
+**/prime
+**/stage
 *.xdelta3
 *.xdelta3-[0-9]*
 */*/*/__pycache__
