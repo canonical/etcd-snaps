@@ -8,9 +8,6 @@ description: |
 confinement: strict
 grade: devel
 
-#environment:
-#  ETCDCTL_API: 3
-
 apps:
   etcd:
     daemon: simple
@@ -23,13 +20,17 @@ apps:
       - etcdctl
 
 parts:
+  go:
+    source-tag: go1.8
   etcd:
-    plugin: go
     source: http://github.com/coreos/etcd.git
+    source-branch: master
+    plugin: go
     go-importpath: github.com/coreos/etcd
-    stage:
-     - bin/etcd
-     - bin/etcdctl
+    go-packages:
+      - github.com/coreos/etcd/cmd/etcd
+      - github.com/coreos/etcd/cmd/etcdctl
+    after: [go]
   etcd-wrapper:
     plugin: dump
     source: .
