@@ -1,5 +1,8 @@
 name: etcd
-version: '3.1+master'
+version: git
+version-script: |
+  cd parts/etcd/src
+  git -C . describe --dirty | cut -c 2-
 summary: Resilient key-value store by CoreOS
 description: |
   Etcd is a high availability key-value store, implementing the RAFT
@@ -7,9 +10,6 @@ description: |
   as a store of small but important data in distributed systems.
 confinement: strict
 grade: devel
-
-#environment:
-#  ETCDCTL_API: 3
 
 apps:
   etcd:
@@ -23,13 +23,17 @@ apps:
       - etcdctl
 
 parts:
+  go:
+    source-tag: go1.8.1
   etcd:
-    plugin: go
     source: http://github.com/coreos/etcd.git
+    source-branch: master
+    plugin: go
     go-importpath: github.com/coreos/etcd
-    stage:
-     - bin/etcd
-     - bin/etcdctl
+    go-packages:
+      - github.com/coreos/etcd/cmd/etcd
+      - github.com/coreos/etcd/cmd/etcdctl
+    after: [go]
   etcd-wrapper:
     plugin: dump
     source: .
