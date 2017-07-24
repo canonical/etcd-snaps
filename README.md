@@ -1,5 +1,7 @@
 # snapcraft.yaml for etcd releases and master
 
+[![Snap Status](https://build.snapcraft.io/badge/tvansteenburgh/etcd-snaps.svg)](https://build.snapcraft.io/user/tvansteenburgh/etcd-snaps)
+
 This is a repo for etcd snapcraft; each directory corresponds to a release,
 snapcraft will create a snap of that release if run in that directory.
 etcd-master contains snapcraft.yaml to build a snap of upstream master.
