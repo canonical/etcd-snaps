@@ -24,7 +24,7 @@ apps:
 
 parts:
   go:
-    source-tag: go1.8.1
+    source-tag: go1.9
   etcd:
     source: http://github.com/coreos/etcd.git
     source-branch: master
