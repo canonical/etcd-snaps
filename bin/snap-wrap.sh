@@ -15,7 +15,7 @@ fi
 
 # Check for a version 2.x config and bail if so
 if [ -e $CONF_DIR/etcd.conf ]; then
-  echo "etcd 3.x is compatible with etcd 3.0 but not 2.x."
+  echo "etcd 3.1 is compatible with etcd 3.0 but not 2.x."
   echo
   echo "It appears you have an existing etcd 2.x configuration in "
   echo "$CONF_DIR/etcd.conf which means you need to switch "
