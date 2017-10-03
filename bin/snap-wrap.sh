@@ -10,30 +10,46 @@ if [[ $EUID -ne 0 ]]; then
 else
   DATA_DIR=$SNAP_DATA
   CONF_DIR=$SNAP_COMMON
-  echo "Running as system with data in $DATA_DIR"
+  echo "Running as system wih data in $DATA_DIR"
 fi
 
-# Check for a version 2.x config and bail if so
-if [ -e $CONF_DIR/etcd.conf ]; then
-  echo "etcd 3.x is compatible with etcd 3.0 but not 2.x."
-  echo
-  echo "It appears you have an existing etcd 2.x configuration in "
-  echo "$CONF_DIR/etcd.conf which means you need to switch "
-  echo "to the 3.0 channel of etcd in order to upgrade to 3.0 "
-  echo "before switching back and trying to run this etcd 3.1."
-  exit 1
+
+# Migrate older config to new location
+if [ -e $DATA_DIR/etcd.conf ]; then
+  echo "Moving configuration to $CONF_DIR"
+  mv $DATA_DIR/etcd.conf $CONF_DIR/
 fi
+
 
 # See if there is a configuration file
-TARGET_CONF=$CONF_DIR/etcd.conf.yml
+TARGET_CONF=$CONF_DIR/etcd.conf
+FALLBACK_CONFIG="${TARGET_CONF}.2x"
 if [ -e $TARGET_CONF ]; then
+  # The desired configuration file is already in place
   echo "Configuration from $TARGET_CONF"
+  set -o allexport
+  . $TARGET_CONF
+  set +o allexport
+elif [ -e $FALLBACK_CONFIG ]; then
+  # We've migrated and reverted to a 2.x series state
+  echo "Configuration from fallback ${TARGET_CONF}.2x"
+  set -o allexport
+  . "${TARGET_CONF}.2x"
+  set +o allexport
 else
-  echo "No config found, please create one at $TARGET_CONF"
-  echo "See $SNAP/etcd.conf.yml.sample for an example."
+  echo "Please install config at $TARGET_CONF, then restart snap.etcd"
   exit 0
 fi
 
-# Launch with the default config file
-exec $SNAP/bin/etcd --config-file $TARGET_CONF "$@"
+# Only set the environment if the user has not done so
+ETCD_NAME="${ETCD_NAME:=default}"
+TARGET_DATA_DIR=$DATA_DIR/$ETCD_NAME.etcd
+ETCD_DATA_DIR="${ETCD_DATA_DIR:=$TARGET_DATA_DIR}"
+
+
+# Make sure it is exported not just set
+export ETCD_NAME
+export ETCD_DATA_DIR
+
+exec $SNAP/bin/etcd "$@"
 

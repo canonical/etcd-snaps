@@ -7,10 +7,16 @@ snapfile="$1"
 snap remove etcd
 snap install $snapfile --dangerous
 
-cp /snap/etcd/x1/etcd.conf.yml.sample /var/snap/etcd/common/etcd.conf.yml
+# trick snap-wrap.sh into thinking we have conf
+touch /var/snap/etcd/common/etcd.conf
+
+# start etcd
 systemctl start snap.etcd.etcd.service
 
-ETCDCTL_API=3 /snap/bin/etcd.etcdctl --endpoints=localhost:2379 put foo bar
-ETCDCTL_API=3 /snap/bin/etcd.etcdctl --endpoints=localhost:2379 get foo
+# wait for server to start
+sleep 2
+
+curl -L http://127.0.0.1:2379/v2/keys/mykey -XPUT -d value="this is awesome"
+curl -L http://127.0.0.1:2379/v2/keys/mykey
 
 snap remove etcd
