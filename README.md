@@ -43,7 +43,7 @@ should see a log entry confirming the update of the cluster to 2.3.
 
 Note that the 3.0 release of etcd changed the format of configuration to
 YAML, and the launch wrapper in the etcd 3.0 snap will determine if this
-migration needs to be done. If so you should havev a backup of the old 2.x
+migration needs to be done. If so you should have a backup of the old 2.x
 config in /var/snap/etcd/common and the new yaml config in that directory as
 well. Logs should indicate the member joining the cluster.
 
