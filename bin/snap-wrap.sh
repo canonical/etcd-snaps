@@ -51,5 +51,8 @@ ETCD_DATA_DIR="${ETCD_DATA_DIR:=$TARGET_DATA_DIR}"
 export ETCD_NAME
 export ETCD_DATA_DIR
 
+# Attempt to force etcd to run on the current architecture.
+export ETCD_UNSUPPORTED_ARCH=`python3 -c "import platform; print({'x86_64':'amd64','aarch64':'arm64','s390x':'s390x'}[platform.machine()])"`
+
 exec $SNAP/bin/etcd "$@"
 
