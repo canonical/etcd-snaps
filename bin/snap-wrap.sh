@@ -88,6 +88,9 @@ if [ ! -e $TARGET_CONF ]; then
   exit 0
 fi
 
+# Attempt to force etcd to run on the current architecture.
+export ETCD_UNSUPPORTED_ARCH=`python3 -c "import platform; print({'x86_64':'amd64','aarch64':'arm64','s390x':'s390x'}[platform.machine()])"`
+
 # Launch with the default config file
 exec $SNAP/bin/etcd --config-file $TARGET_CONF "$@"
 
