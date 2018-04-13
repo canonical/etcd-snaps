@@ -31,8 +31,8 @@ parts:
     plugin: go
     go-importpath: github.com/coreos/etcd
     go-packages:
-      - github.com/coreos/etcd
-      - github.com/coreos/etcd/etcdctl
+      - github.com/coreos/etcd/cmd/etcd
+      - github.com/coreos/etcd/cmd/etcdctl
     after: [go]
   etcd-wrapper:
     plugin: dump
