@@ -24,17 +24,27 @@ apps:
       - etcdctl
 
 parts:
-  go:
-    source-tag: go1.8.4
   etcd:
-    source: http://github.com/coreos/etcd.git
-    source-tag: v3.2.9
-    plugin: go
-    go-importpath: github.com/coreos/etcd
-    go-packages:
-      - github.com/coreos/etcd/cmd/etcd
-      - github.com/coreos/etcd/cmd/etcdctl
-    after: [go]
+    plugin: dump
+    source: .
+    build-packages:
+    - golang-1.9
+    - golang-1.9-go
+    override-build: |
+      set -eux
+      mkdir -p gopath
+      export PATH=$PATH:/usr/lib/go-1.9/bin
+      export SNAP_ROOT="$(readlink -f .)"
+      export GOPATH=$SNAP_ROOT/gopath
+      git clone https://github.com/coreos/etcd.git
+      cd etcd
+      git checkout release-3.2
+      ./build
+      cd ..
+      cp -r ./etcd/bin ../install
+      chmod +x ./etcd/bin/etcd
+      chmod +x ./etcd/bin/etcdctl
+
   etcd-wrapper:
     plugin: dump
     source: .
