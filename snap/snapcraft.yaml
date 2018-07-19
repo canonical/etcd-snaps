@@ -27,12 +27,13 @@ parts:
   etcd:
     plugin: dump
     source: .
-    build-packages:
-    - golang-1.9
-    - golang-1.9-go
     override-build: |
       set -eux
       mkdir -p gopath
+      mkdir -p gopath
+      add-apt-repository ppa:gophers/archive
+      apt-get update
+      apt-get install golang-1.9-go -y
       export PATH=$PATH:/usr/lib/go-1.9/bin
       export SNAP_ROOT="$(readlink -f .)"
       export GOPATH=$SNAP_ROOT/gopath
