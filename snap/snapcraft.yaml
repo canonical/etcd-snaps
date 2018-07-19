@@ -34,8 +34,8 @@ parts:
       apt-get -y install software-properties-common
       add-apt-repository ppa:gophers/archive
       apt-get update
-      apt-get install golang-1.9-go -y
-      export PATH=$PATH:/usr/lib/go-1.9/bin
+      apt-get install golang-1.10-go -y
+      export PATH=$PATH:/usr/lib/go-1.10/bin
       export SNAP_ROOT="$(readlink -f .)"
       export GOPATH=$SNAP_ROOT/gopath
       git clone https://github.com/coreos/etcd.git -b v3.2.9 --depth 1
