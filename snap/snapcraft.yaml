@@ -31,6 +31,7 @@ parts:
       set -eux
       mkdir -p gopath
       mkdir -p gopath
+      apt-get -y install software-properties-common
       add-apt-repository ppa:gophers/archive
       apt-get update
       apt-get install golang-1.9-go -y
