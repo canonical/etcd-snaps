@@ -36,11 +36,8 @@ parts:
       export PATH=$PATH:/usr/lib/go-1.9/bin
       export SNAP_ROOT="$(readlink -f .)"
       export GOPATH=$SNAP_ROOT/gopath
-      git clone https://github.com/coreos/etcd.git
-      cd etcd
-      git checkout release-3.2
-      ./build
-      cd ..
+      git clone https://github.com/coreos/etcd.git -b v3.2.9 --depth 1
+      (cd etcd; ./build)
       cp -r ./etcd/bin ../install
       chmod +x ./etcd/bin/etcd
       chmod +x ./etcd/bin/etcdctl
