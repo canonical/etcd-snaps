@@ -1,5 +1,5 @@
 name: etcd
-version: '3.2.10'
+version: '3.2.17'
 summary: Resilient key-value store by CoreOS
 description: |
   Etcd is a high availability key-value store, implementing the RAFT
@@ -51,7 +51,7 @@ parts:
       export PATH=$PATH:/usr/lib/go-1.10/bin
       export SNAP_ROOT="$(readlink -f .)"
       export GOPATH=$SNAP_ROOT/gopath
-      git clone https://github.com/coreos/etcd.git -b v3.2.10 --depth 1
+      git clone https://github.com/coreos/etcd.git -b v3.2.17 --depth 1
       (cd etcd; ./build)
       cp -r ./etcd/bin ../install
       chmod +x ./etcd/bin/etcd
