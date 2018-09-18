@@ -23,6 +23,19 @@ apps:
     aliases:
       - etcdctl
 
+# You might be curious as to why we had to install golang from ppa instead of
+# using the go part in snapcraft like we used to
+# (https://github.com/juju-solutions/etcd-snaps/blob/v3.1/snap/snapcraft.yaml#L28)
+# Everything started failing after this upstream
+# PR: https://github.com/coreos/etcd/commit/b1e87f8ae1b4629cc07ade4fbe12caa4401b8a34
+# Upstream practically killed the vendored build on the v3.2 branch.
+# Here is the issue opened upstream telling them the vendored build is
+# failing https://github.com/coreos/etcd/issues/9928
+# On our v3.2 branch as soon as you fix the moved paths
+# (as we do in this PR on the master https://github.com/juju-solutions/etcd-snaps/pull/13/files)
+# the libs & version you get on xenial are not the correct ones so the go plugin fails.
+# Practically we would be chasing after dependencies and versions
+
 parts:
   etcd:
     plugin: dump
