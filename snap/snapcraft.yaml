@@ -7,6 +7,7 @@ description: |
   as a store of small but important data in distributed systems.
 confinement: strict
 grade: stable
+base: core18
 
 apps:
   etcd:
@@ -16,21 +17,17 @@ apps:
   etcdctl:
     command: etcdctl
     plugs: [ home, network-bind ]
-    aliases:
-      - etcdctl
 
 parts:
-  go:
-    source-branch: release-branch.go1.12
   etcd:
+    plugin: go
+    go-channel: 1.12/stable
     source: http://github.com/etcd-io/etcd.git
     source-tag: v3.4.0
-    plugin: go
     go-importpath: github.com/etcd-io/etcd
     go-packages:
       - github.com/etcd-io/etcd
       - github.com/etcd-io/etcd/etcdctl
-    after: [go]
   etcd-wrapper:
     plugin: dump
     source: .
