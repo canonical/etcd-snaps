@@ -1,5 +1,5 @@
 name: etcd
-version: '3.4.0'
+version: '3.3.15'
 summary: Distributed reliable key-value store
 description: |
   Etcd is a high availability key-value store, implementing the Raft
@@ -7,6 +7,7 @@ description: |
   as a store of small but important data in distributed systems.
 confinement: strict
 grade: stable
+base: core18
 
 apps:
   etcd:
@@ -16,21 +17,19 @@ apps:
   etcdctl:
     command: etcdctl
     plugs: [ home, network-bind ]
-    aliases:
-      - etcdctl
 
 parts:
-  go:
-    source-branch: release-branch.go1.12
   etcd:
-    source: http://github.com/etcd-io/etcd.git
-    source-tag: v3.4.0
     plugin: go
-    go-importpath: github.com/etcd-io/etcd
+    go-channel: 1.10/stable
+    source: http://github.com/etcd-io/etcd.git
+    source-tag: v3.3.15
+    go-importpath: github.com/coreos/etcd
     go-packages:
-      - github.com/etcd-io/etcd
-      - github.com/etcd-io/etcd/etcdctl
-    after: [go]
+      - github.com/coreos/etcd
+      - github.com/coreos/etcd/etcdctl
+    build-packages:
+      - gcc
   etcd-wrapper:
     plugin: dump
     source: .
