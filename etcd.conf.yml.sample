@@ -3,6 +3,10 @@
 # Human-readable name for this member.
 name: 'default'
 
+# Enable API v2 support for flannel and 
+# certain charm executions.
+enable-v2: true
+
 # Path to the data directory.
 data-dir:
 
