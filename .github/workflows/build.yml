@@ -19,5 +19,5 @@ jobs:
       run: sudo ./test_snap.sh ${{ steps.snapcraft.outputs.snap }}
     - uses: actions/upload-artifact@v1
       with:
-        name: charm.snap
+        name: etcd.snap
         path: ${{ steps.snapcraft.outputs.snap }}
