@@ -1,5 +1,5 @@
 name: etcd
-version: '3.4.0'
+version: '3.4.5'
 summary: Distributed reliable key-value store
 description: |
   Etcd is a high availability key-value store, implementing the Raft
@@ -21,13 +21,12 @@ apps:
 parts:
   etcd:
     plugin: go
-    go-channel: 1.12/stable
+    go-channel: 1.13/stable
     source: http://github.com/etcd-io/etcd.git
-    source-tag: v3.4.0
-    go-importpath: github.com/etcd-io/etcd
-    go-packages:
-      - github.com/etcd-io/etcd
-      - github.com/etcd-io/etcd/etcdctl
+    source-tag: v3.4.5
+    override-build: |
+      go build -o /root/parts/etcd/install/bin/etcd go.etcd.io/etcd
+      go build -o /root/parts/etcd/install/bin/etcdctl go.etcd.io/etcd/etcdctl
   etcd-wrapper:
     plugin: dump
     source: .
