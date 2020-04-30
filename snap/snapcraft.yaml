@@ -25,8 +25,8 @@ parts:
     source: http://github.com/etcd-io/etcd.git
     source-tag: v3.4.5
     override-build: |
-      go build -o /root/parts/etcd/install/bin/etcd go.etcd.io/etcd
-      go build -o /root/parts/etcd/install/bin/etcdctl go.etcd.io/etcd/etcdctl
+      go build -o $SNAPCRAFT_PART_INSTALL/bin/etcd go.etcd.io/etcd
+      go build -o $SNAPCRAFT_PART_INSTALL/bin/etcdctl go.etcd.io/etcd/etcdctl
   etcd-wrapper:
     plugin: dump
     source: .
