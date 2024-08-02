@@ -1,13 +1,14 @@
 name: etcd
-version: '3.2.17'
+version: '3.2.32'
 summary: Resilient key-value store by CoreOS
 description: |
-  Etcd is a high availability key-value store, implementing the RAFT
+  Etcd is a high availability key-value store, implementing the Raft
   algorithm to deal with failover within the etcd cluster. Popular
   as a store of small but important data in distributed systems.
 confinement: strict
 grade: stable
-
+base: core18
+ 
 # pending a fix to snapd environment variable handling
 # environment:
 #   ETCDCTL_API: 3
@@ -20,8 +21,6 @@ apps:
   etcdctl:
     command: etcdctl
     plugs: [ home, network-bind ]
-    aliases:
-      - etcdctl
 
 # You might be curious as to why we had to install golang from ppa instead of
 # using the go part in snapcraft like we used to
@@ -47,11 +46,11 @@ parts:
       apt-get -y install software-properties-common
       add-apt-repository ppa:gophers/archive
       apt-get update
-      apt-get install golang-1.10-go -y
+      apt-get install git golang-1.10-go -y
       export PATH=$PATH:/usr/lib/go-1.10/bin
       export SNAP_ROOT="$(readlink -f .)"
       export GOPATH=$SNAP_ROOT/gopath
-      git clone https://github.com/coreos/etcd.git -b v3.2.17 --depth 1
+      git clone https://github.com/coreos/etcd.git -b v3.2.32 --depth 1
       (cd etcd; ./build)
       cp -r ./etcd/bin ../install
       chmod +x ./etcd/bin/etcd
