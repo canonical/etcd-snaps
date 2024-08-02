@@ -12,9 +12,11 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-    - uses: actions/checkout@v2
-    - uses: jhenstridge/snapcraft-build-action@v1
+    - uses: actions/checkout@v4
+    - uses: snapcore/action-build@v1
       id: snapcraft
+      with:
+        snapcraft-channel: 7.x/stable
     - name: Test snap
       run: sudo ./test_snap.sh ${{ steps.snapcraft.outputs.snap }}
     - uses: actions/upload-artifact@v1
