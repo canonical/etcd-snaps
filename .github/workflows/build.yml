@@ -19,7 +19,7 @@ jobs:
         snapcraft-channel: 7.x/stable
     - name: Test snap
       run: sudo ./test_snap.sh ${{ steps.snapcraft.outputs.snap }}
-    - uses: actions/upload-artifact@v1
+    - uses: actions/upload-artifact@v4
       with:
         name: etcd.snap
         path: ${{ steps.snapcraft.outputs.snap }}
