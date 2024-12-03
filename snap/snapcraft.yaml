@@ -1,5 +1,5 @@
 name: etcd
-version: '3.4.33'
+version: '3.4.35'
 summary: Distributed reliable key-value store
 description: |
   Etcd is a high availability key-value store, implementing the Raft
