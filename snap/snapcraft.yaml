@@ -1,5 +1,5 @@
 name: etcd
-version: '3.4.36'
+adopt-info: etcd-version
 summary: Distributed reliable key-value store
 description: |
   Etcd is a high availability key-value store, implementing the Raft
@@ -7,15 +7,20 @@ description: |
   as a store of small but important data in distributed systems.
 confinement: strict
 grade: stable
-base: core18
+base: core20
+
+architectures:
+  - build-on: [amd64]
+  - build-on: [arm64]
+  - build-on: [s390x]
 
 apps:
   etcd:
     daemon: simple
-    command: snap-wrap.sh
+    command: bin/snap-wrap.sh
     plugs: [ network-bind, removable-media ]
   etcdctl:
-    command: etcdctl
+    command: bin/etcdctl
     plugs: [ home, network-bind ]
 
 parts:
@@ -23,7 +28,7 @@ parts:
     plugin: go
     go-channel: 1.23/stable
     source: http://github.com/etcd-io/etcd.git
-    source-tag: v3.4.36
+    source-tag: v3.4.37
     override-build: |
       go build -o $SNAPCRAFT_PART_INSTALL/bin/etcd go.etcd.io/etcd
       go build -o $SNAPCRAFT_PART_INSTALL/bin/etcdctl go.etcd.io/etcd/etcdctl
@@ -31,5 +36,11 @@ parts:
     plugin: dump
     source: .
     stage:
-      - bin/snap-wrap.sh
-      - etcd.conf.yml.sample
+    - bin/snap-wrap.sh
+    - etcd.conf.yml.sample
+  etcd-version:
+    after: [etcd]
+    plugin: nil
+    source: .
+    override-build: |
+      snapcraftctl set-version "$(etcd --version | head -n1 | awk '{print $3}')"
