@@ -16,7 +16,7 @@ jobs:
     - uses: snapcore/action-build@v1
       id: snapcraft
       with:
-        snapcraft-channel: 7.x/stable
+        snapcraft-channel: 8.x/stable
     - name: Test snap
       run: sudo ./test_snap.sh ${{ steps.snapcraft.outputs.snap }}
     - uses: actions/upload-artifact@v4
