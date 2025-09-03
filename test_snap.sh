@@ -13,7 +13,7 @@ systemctl start snap.etcd.etcd.service
 /snap/bin/etcd.etcdctl --endpoints=localhost:2379 put foo bar
 /snap/bin/etcd.etcdctl --endpoints=localhost:2379 get foo
 
-version=$(grep source-tag: snap/snapcraft.yaml | cut -d':' -f2 | xargs | cut -c 2-)
+version=$(grep source-tag: snap/snapcraft.yaml | sed 's/.*: v//')
 
 /snap/etcd/current/bin/etcdctl version | grep $version
 /snap/etcd/current/bin/etcd --version | grep $version
