@@ -44,5 +44,5 @@ parts:
     plugin: nil
     source: .
     override-prime: |
-      etcd_version=$($CRAFT_PRIME/bin/etcd --version | head -n1 | awk '{print $3}')
+      etcd_version=$($CRAFT_PRIME/bin/etcdctl version | grep -i 'etcdctl version' | awk '{print $3}')
       craftctl set version="$etcd_version"

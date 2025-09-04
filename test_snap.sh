@@ -4,6 +4,11 @@ set -eux
 
 snapfile="$1"
 
+arch=$(dpkg --print-architecture)
+if [[ "$arch" != "amd64" ]]; then
+    export ETCD_UNSUPPORTED_ARCH="$arch"
+fi
+
 snap remove etcd
 snap install $snapfile --dangerous
 
@@ -17,5 +22,6 @@ version=$(grep source-tag: snap/snapcraft.yaml | sed 's/.*: v//')
 
 /snap/etcd/current/bin/etcdctl version | grep $version
 /snap/etcd/current/bin/etcd --version | grep $version
+echo $snapfile | grep $version
 
 snap remove etcd

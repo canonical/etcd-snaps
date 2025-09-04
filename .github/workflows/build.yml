@@ -24,8 +24,9 @@ jobs:
       run: sudo ./test_snap.sh ${{ steps.snapcraft.outputs.snap }}
     - uses: actions/upload-artifact@v4
       with:
-        name: etcd.snap
+        name: snap-built-by-${{ matrix.runner }}
         path: ${{ steps.snapcraft.outputs.snap }}
     - name: Setup tmate session
       if: failure()
       uses: mxschmitt/action-tmate@v3
+      timeout-minutes: 10
