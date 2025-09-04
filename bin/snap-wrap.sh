@@ -18,9 +18,9 @@ if [ -e $CONF_DIR/etcd.conf ]; then
   echo "etcd 3.4 is not compatible with 2.x."
   echo
   echo "It appears you have an existing etcd 2.x configuration in "
-  echo "$CONF_DIR/etcd.conf. To upgrade from 2.x to 3.4, you must "
+  echo "$CONF_DIR/etcd.conf. To upgrade from 2.x to 3.6, you must "
   echo "first upgrade to 3.0, then sequentially upgrade through "
-  echo "3.1, 3.2, 3.3, and finally to 3.4."
+  echo "3.1, 3.2, 3.3, 3.4, 3.5 and finally to 3.6."
   exit 1
 fi
 
@@ -39,4 +39,3 @@ export ETCD_UNSUPPORTED_ARCH=`python3 -c "import platform; print({'aarch64':'arm
 
 # Launch with the default config file
 exec $SNAP/bin/etcd --config-file $TARGET_CONF "$@"
-
