@@ -31,8 +31,8 @@ parts:
     source: http://github.com/etcd-io/etcd.git
     source-tag: v3.4.37
     override-build: |
-      go build -o $SNAPCRAFT_PART_INSTALL/bin/etcd go.etcd.io/etcd
-      go build -o $SNAPCRAFT_PART_INSTALL/bin/etcdctl go.etcd.io/etcd/etcdctl
+      go build -o $CRAFT_PART_INSTALL/bin/etcd go.etcd.io/etcd
+      go build -o $CRAFT_PART_INSTALL/bin/etcdctl go.etcd.io/etcd/etcdctl
   etcd-wrapper:
     plugin: dump
     source: .
@@ -43,5 +43,6 @@ parts:
     after: [etcd]
     plugin: nil
     source: .
-    override-build: |
-      snapcraftctl set-version "$(etcd --version | head -n1 | awk '{print $3}')"
+    override-prime: |
+      etcd_version=$($CRAFT_PRIME/bin/etcd --version | head -n1 | awk '{print $3}')
+      craftctl set version="$etcd_version"
